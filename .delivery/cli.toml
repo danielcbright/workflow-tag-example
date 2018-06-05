@@ -1,0 +1,9 @@
+# This was my local testing Bitbucket config, I'm just leaving it here for
+# others to see
+server = "localhost:7990"
+api_protocol = "https"
+user = "dbright"
+enterprise = "BallJoints"
+organization = "bitbucket-test-org"
+git_port = "8989"
+pipeline = "master"
