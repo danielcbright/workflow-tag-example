@@ -53,6 +53,15 @@ will need to add the `-M client` switch to **all** `knife vault` commands.
 1. Now, on to the `publish.rb`, open the `.delivery/build_cookbook/recipes/publish.rb` file and add the following below `include_recipe 'delivery-truck::publish'`, replacing everything
 between `< >`'s.:
   ```ruby
+  require 'chef/cookbook/metadata'
+
+  # Read in Metadata file in current cookbook
+  cookbook_name = node['delivery']['change']['project']
+  metadata = Chef::Cookbook::Metadata.new
+  metadata.from_file("/var/opt/delivery/workspace/<automate-hostname.fqdn>/<enterprise-name>/<org-name>/#{cookbook_name}/master/build/publish/repo/metadata.rb")
+
+  cookbook_version = "#{metadata.version}"
+
   vault_data = get_workflow_vault_data
 
   execute "Set git username information" do
@@ -90,8 +99,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/daniel
 
 ### ToDo
 
-* Add auto-tag feature that automatically sets the version to what's in your
-`metadata.rb`
+* Add support for automatically pulling git origin information to push tag (for shared build cookbooks)
 
 ### License
 Apache 2.0 (see [LICENSE](./LICENSE))
